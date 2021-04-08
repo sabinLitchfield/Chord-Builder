@@ -1,0 +1,68 @@
+
+<!doctype html>
+<head>
+<title>Display Chord</title>
+<link rel ='stylesheet' type='text/css' href ="{{url_for('static', filename = 'css/style.css' ) }}"/>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src = "https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
+<script src = "https://surikov.github.io/webaudiofontdata/sound/0253_GeneralUserGS_sf2_file.js"></script>
+<script src = "https://surikov.github.io/webaudiofontdata/sound/0270_FluidR3_GM_sf2_file.js"></script>
+<script src = "https://surikov.github.io/webaudiofontdata/sound/0290_Aspirin_sf2_file.js"></script>
+<script src = "https://surikov.github.io/webaudiofontdata/sound/0300_Chaos_sf2_file.js"></script>
+</head>
+<html>
+<body>
+
+<h1>Chord Display Page</h1>
+<table>
+  <tr>
+    <td>
+{% if not isPossible  %}
+<h3> It is impossible to play the all of the selected notes with the current tuning </h3>
+{% else %}
+<h3>Your Chords</h3>
+<h4>Click on the items in the list to see the different shapes of the chord </h4>
+<select size = '{{chords|length}}' id = "createdchords" name = "createdchords">
+  {% for x in range (0, chords|length)  %}
+    <option id = 'chordnum{{x}}' value='{{chords[x]}}'> Chord Shape {{x+1}}</option>
+    {% endfor %}
+</select>
+<h4> Click on the drop down menus to edit the notes in the chord. </h4>
+{% for x in range (0,6) %}
+<h3 >{{tuning[5-x].alphaValue}} :
+  <select id = "string{{x}}" name = "string{{x}}">
+    {% for fret in fretsOnStrings[5-x] %}
+    <option  value = '{{fret.toString()}}'> {{fret.toString()}} </option>
+    {% endfor %}
+    </select>
+  {% endfor %}
+  </h3>
+
+<h4>Choose the type of the guitar you want to hear the chord to be played on</h4>
+<select id  = "tonetype">
+  <option value = 0> Acoustic </option>
+  <option value = 1 >Clean Electric </option>
+  <option value = 2> Overdriven Electric </option>
+  <option value = 3>Distorted Electric</option>
+  </select>
+<input type = "submit" id = "viewChord" name="viewChord" value = "View Chord Diagram"/>
+<input type = "submit" id = "strum" name = "strum" value = "Strum Chord"/>
+<input type = "submit" id = "arppegio" name = "arppegio" value = "Arpeggiate Chord"/>
+</td><td>
+<canvas id = "fretboard" width = "0" height = "0">
+  Your browser is too cruddy to display your awesome chord
+  </canvas>
+</td></tr></table>
+<script src = "{{url_for('static', filename = 'javascript/displaychord.js') }}"></script>
+
+{% endif %}
+<form action = 'displayChord' method = 'POST'> 
+<input type = "submit" id = "changeNotes" name="changeNotes" value = "Change Notes"/>
+<input type = "submit" id = "changeTuning" name="changeTuning" value = "Change Tuning"/>
+</form>
+
+</body>
+</html>
+       
+
+

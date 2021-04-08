@@ -1,0 +1,40 @@
+<!doctype html>
+<head>
+<title>Get Guitar Setup</title>
+<link rel ='stylesheet' type='text/css' href ="{{url_for('static', filename = 'css/style.css' ) }}"/>
+</head>
+<html>
+<body>
+  <h1>Welcome To the Guitar Chord Builder</h1>
+<form action = 'GuitarSetup' method = 'post'>
+  <h4>Select the tuning of your guitar:</h4>
+  {% for x in range(1,7) %}
+    <select   name = '{{(6-x)}}String'>
+      {% for note in tuningNotes %}
+      <option value = '{{note.numValue}}'
+	      {% if (standard[(6-x)] ==note.numValue) %}
+	      selected = 'selected'
+	      {% endif %}
+	      > {{note.alphaValue}}</option>
+{% endfor %}
+  </select>
+  {% endfor %}
+
+  <h4>Enter the number of frets on your guitar's fretboard</h4>
+  <select name = "numFrets">
+    {% for x in range (18,31) %}
+    <option value = '{{x}}'
+	    {% if(x==24) %}
+	    selected ='selected'
+	    {% endif %}
+      >{{x}} </option>
+    {% endfor %}
+  </select>
+  </br>
+    <input type = 'submit' name = 'submitSetup' value = 'submit'></br>
+</form>
+</body>
+</html>
+       
+
+

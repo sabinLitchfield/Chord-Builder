@@ -1,0 +1,37 @@
+<!doctype html>
+<head>
+<title>Create Chord</title>
+<link rel ='stylesheet' type='text/css' href ="{{url_for('static', filename = 'css/style.css' ) }}"/>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<html>
+<body>
+<form action = 'createChord' method = 'POST'> 
+  <h1>Chord Creation Page</h1>
+  <h4>Pick up to six notes that you want in your chord from the left list and to remove selected notes from your list simply click on them in the right list:</h4>
+    <select size ='12' id= 'note'  name = 'note'>
+      {% for note in notes %}
+      <option value = '{{note.numValue}}'> {{note.alphaValue}}</option>
+{% endfor %}
+  </select>
+
+    <select MULTIPLE size = '6' id = 'usedNotes' name = 'usedNotes'> </select>
+    <input type = "checkbox" id = "isBass" name = "isBass" value = "True">
+    <label>Check the box if the first note in the list is the bass note </label>
+    <h4>Enter the fret number you want the chord to be build around</h4>
+    <select name = "targetFret">
+      <option value ='-1'> Do not Care </option>
+    {% for x in range (0, 1+(numFrets|int)) %}
+    <option value = '{{x}}' >{{x}} </option>
+    {% endfor %}
+  </select>
+  </br>
+   <input type = 'submit' id= 'submit' name = 'submitChord' value = 'Submit Chord'></br>
+    <input type = 'submit' id= 'changeTuning' name = 'changeTuning' value = 'Change Tuning'> 
+</form>
+<script src = "{{url_for('static', filename = 'javascript/createchord.js') }}"></script>
+</body>
+</html>
+       
+
+
