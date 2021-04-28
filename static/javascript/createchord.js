@@ -19,7 +19,7 @@ $(document).ready(function () {
       option.text = $('#note option:selected').text();
       option.value = notes.value;
       option.id = 'note' + numNotes;
-      $(option).attr('name', temp.id);
+      $(option).attr('name', option.id);
       notesForUse.add(option);
     }
   }
