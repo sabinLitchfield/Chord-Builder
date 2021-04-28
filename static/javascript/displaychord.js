@@ -1,4 +1,5 @@
 'use strict';
+/* global WebAudioFontPlayer, _tone_0253_GeneralUserGS_sf2_file, _tone_0270_FluidR3_GM_sf2_file, _tone_0290_Aspirin_sf2_file, _tone_0300_Chaos_sf2_file */
 
 $(document).ready(function () {
   // the following block sets up the players for guitar tones that the chords can be played in
@@ -50,31 +51,31 @@ $(document).ready(function () {
   submit.onclick = function () {
     displayChord();
   }
-  
+
   // play the audio of the chord when the strum chord button is clicked
   const strumchord = document.getElementById('strum');
   strumchord.onclick = function () {
     playChord(true);
   }
-  
+
   // play the audio of the chord when the arppegio chord button is clicked
   const arppegiochord = document.getElementById('arppegio');
-    arppegiochord.onclick = function () {
+  arppegiochord.onclick = function () {
     playChord(false);
   }
 
   /**
-   * 
-   * @param {number} toneType 
-   * @returns {Object{zones:[]}} 
+   *
+   * @param {number} toneType
+   * @returns {Object{zones:[]}}
    * Loads in the tone type to context
    * 0 is acoustic
    * 1 is clean electric
    * 2 is overdriven electric
    * 3 is distorded electric
    */
-  function loadGuitarTone(toneType){
-    if (isNaN(toneType)){
+  function loadGuitarTone (toneType) {
+    if (isNaN(toneType)) {
       toneType = 0;
     }
     let guitarTone;
@@ -115,11 +116,11 @@ $(document).ready(function () {
   }
 
   /**
-   * 
+   *
    * @returns {number[]} notes
    * This function reads in the current selected chord and returns an array of the notes
    */
-  function getCurrentNotes(){
+  function getCurrentNotes () {
     const notes = [];
 
     // get the notes of the chord
@@ -130,24 +131,24 @@ $(document).ready(function () {
         const note = string.split('/')[0];
 
         // the number system I am using for the notes is 12 less than the sound program, so I add 12 to make up for the difference
-        notes.push(12 + alphaToNum(note)); 
+        notes.push(12 + alphaToNum(note));
       }
     }
     return notes;
   }
 
   /**
-   * 
+   *
    * @param {boolean} isStrum
    * playChord will play the currently selected chord
-   * isStrum determines if it is strummed or arpeggiated 
+   * isStrum determines if it is strummed or arpeggiated
    */
   function playChord (isStrum) {
     const notes = getCurrentNotes();
 
     if (notes.length !== 0) {
       const guitarTone = loadGuitarTone($('option:selected', $('#tonetype')).val());
-      
+
       // either strums or arpeggiates all of the notes
       if (isStrum) {
         player.queueStrumDown(context, context.destination, guitarTone, context.currentTime, notes, 3);
@@ -162,8 +163,8 @@ $(document).ready(function () {
   }
 
   /**
-   * 
-   * @param {String} note 
+   *
+   * @param {String} note
    * @returns {Number}
    * alphaToNum takes in the note and octave as a string and converts it to a number
    */
@@ -203,15 +204,15 @@ $(document).ready(function () {
   }
 
   /**
-   * 
-   * @param {Number[]} frets 
+   *
+   * @param {Number[]} frets
    * @returns {{Number, Number}}
    * getFretRange searches the array for the min and max fret that is used and returns the min and the range
    */
-  function getFretRange(frets){
+  function getFretRange (frets) {
     let minFret = frets.filter(function (fret) { return fret !== 0; })
-        .reduce(function (a, b) { return Math.min(a, b); }, 100); 
-    let maxFret = Math.max(...frets);
+      .reduce(function (a, b) { return Math.min(a, b); }, 100);
+    const maxFret = Math.max(...frets);
     let chordLength = maxFret - minFret;
 
     // this makes sure that the digram shows at least 4 frets
@@ -223,16 +224,16 @@ $(document).ready(function () {
     if (maxFret < 4) {
       minFret = 1;
     }
-    return {minFret, chordLength};
+    return { minFret, chordLength };
   }
 
   /**
-   * 
+   *
    * @returns {{String[], Number[]}}
    * getNoteFretPairs leads in the current chord and returns what note and fret
    * each string is
    */
-  function getNoteFretPairs(){
+  function getNoteFretPairs () {
     const notes = [6];
     const frets = [6];
 
@@ -248,17 +249,17 @@ $(document).ready(function () {
         frets[x] = 0;
       }
     }
-    return {notes, frets};
+    return { notes, frets };
   }
 
   /**
-   * 
-   * @param {CanvasRenderingContext2D} brush 
-   * @param {Number} minFret 
-   * @param {Number} chordLength 
+   *
+   * @param {CanvasRenderingContext2D} brush
+   * @param {Number} minFret
+   * @param {Number} chordLength
    * drawFretboardMarkers draws dots on odd frets not adjacent to 12 or draws 2 on multiples of 12
    */
-  function drawFretboardMarkers(brush, minFret, chordLength){
+  function drawFretboardMarkers (brush, minFret, chordLength) {
     // sets the fill color to pearl
     brush.fillStyle = '#FDEEF4';
 
@@ -278,18 +279,18 @@ $(document).ready(function () {
         brush.fill();
       }
     }
-    
+
     // resets the fill color to brown
     brush.fillStyle = '#670A0A';
   }
 
   /**
-   * 
-   * @param {CanvasRenderingContext2D} brush 
-   * @param {Number} height 
+   *
+   * @param {CanvasRenderingContext2D} brush
+   * @param {Number} height
    * drawFrets draws frets on the diagram
    */
-  function drawFrets(brush, height){
+  function drawFrets (brush, height) {
     // light silver for frets
     brush.strokeStyle = '#D8D8D8';
     brush.lineWidth = 4;
@@ -305,12 +306,12 @@ $(document).ready(function () {
   }
 
   /**
-   * 
-   * @param {CanvasRenderingContext2D} brush 
+   *
+   * @param {CanvasRenderingContext2D} brush
    * @param {Number} height
    * drawStrings draws the guitar strings on the diagram
    */
-  function drawStrings(brush, height){
+  function drawStrings (brush, height) {
     // dark silver for strings
     brush.strokeStyle = '#C0C0C0';
 
@@ -327,11 +328,11 @@ $(document).ready(function () {
   }
 
   /**
-   * 
+   *
    * @param {CanvasRenderingContext2D} brush
    * drawNut draws a black bar at the top of the fretboard
    */
-  function drawNut(brush){
+  function drawNut (brush) {
     brush.beginPath();
 
     // Black for nut
@@ -344,14 +345,14 @@ $(document).ready(function () {
   }
 
   /**
-   * 
-   * @param {CanvasRenderingContext2D} brush 
-   * @param {Number[]} frets 
-   * @param {String[]} notes 
-   * @param {Number} minFret 
+   *
+   * @param {CanvasRenderingContext2D} brush
+   * @param {Number[]} frets
+   * @param {String[]} notes
+   * @param {Number} minFret
    * drawNotes draws the note in its respective place on the fretboard
    */
-  function drawNotes(brush, frets, notes, minFret){
+  function drawNotes (brush, frets, notes, minFret) {
     brush.font = '14px Courier New';
     brush.lineWidth = 2;
     brush.strokeStyle = '#e9ecef';
@@ -386,12 +387,12 @@ $(document).ready(function () {
   }
 
   /**
-   * 
-   * @param {CanvasRenderingContext2D} brush 
-   * @param {Number} minFret 
+   *
+   * @param {CanvasRenderingContext2D} brush
+   * @param {Number} minFret
    * labels the first fret in the diagram
    */
-  function labelMinFret(brush, minFret){
+  function labelMinFret (brush, minFret) {
     let fretNum = minFret + 'th';
 
     switch (minFret) {
@@ -416,8 +417,8 @@ $(document).ready(function () {
    * creates a diagram for the current chord
    */
   function displayChord () {
-    const {notes, frets} = getNoteFretPairs();
-    const {minFret, chordLength} = getFretRange(frets);
+    const { notes, frets } = getNoteFretPairs();
+    const { minFret, chordLength } = getFretRange(frets);
 
     // Initializes the diagram
     const c = document.getElementById('fretboard');
