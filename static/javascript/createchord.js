@@ -13,8 +13,7 @@ $(document).ready(function () {
   // when a note is clicked on it adds it to the list of notes to be used, if there are not already 6 of them
   notes.onclick = function () {
     const numNotes = $('#usedNotes option').length;
-    if (numNotes < 6 && $('#note option:selected').text() !== '') { // makes sure that there are less than 6 selected notes
-      // add note to notes for use list
+    if (numNotes < 6 && $('#note option:selected').text() !== '') {
       const option = document.createElement('option');
       option.text = $('#note option:selected').text();
       option.value = notes.value;
