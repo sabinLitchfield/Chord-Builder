@@ -62,3 +62,5 @@ If there are other channels you use besides GitHub to discuss contributions, men
 We use (Standard Javascript Style)[https://standardjs.com/] except with semicolons.
 ## Python:
 We use (PEP 8)[https://www.python.org/dev/peps/pep-0008/] for python.
+
+### Contribution instructions template used https://github.com/nayafia/contributing-template
