@@ -1,7 +1,9 @@
 # Chord-Builder
 ## To run:
 `conda env create -f environment.yml`
+
 `conda activate chordbuilder`
+
 `python chordbuilder.py`
 
 open `http://localhost:5000/` on a web browser.
